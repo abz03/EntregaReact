@@ -6,15 +6,15 @@ body {
   }
   
   /* Estilos para el navbar */
-  .navbar {
-    background-color: #ff6600; /* Cambia este valor por el color deseado */
+  #main-navbar {
+    background-color: #d45908 !important; /* Asegura que este estilo tenga prioridad que la lesera no queria tomarlo aunque lo agregara de "style" en el mismo html*/
   }
-  
-  .navbar-brand,
-  .navbar-nav .nav-link {
-    color: white;
+  /* Cambiar el color del texto en el navbar para mejorar la visibilidad */
+  .navbar-custom .navbar-brand,
+  .navbar-custom .nav-link {
+  color: #ffffff; 
   }
-  
+
   /* Estilos para la lista de items */
   .item-list {
     list-style-type: none;
