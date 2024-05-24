@@ -1,27 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import CartWidget from './CartWidget';
+import { Navbar, Nav, Container } from 'react-bootstrap';
 
-function NavBar() {
-  return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark" id="main-navbar">
-      <div className="container">
-        <Link className="navbar-brand" to="/">Compra Pokemon</Link> {/* Enlace a la página principal */}
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ml-auto">
-            <li className="nav-item">
-              <Link className="nav-link" to="/more-info">Más Información</Link> {/* Enlace a la página de más información */}
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/cart">Carrito</Link> {/* Enlace al carrito de compras */}
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  );
-}
+const NavBar = () => {
+    return (
+        <Navbar style={{ backgroundColor: 'orange' }} variant="dark" expand="lg">
+            <Container>
+                <Navbar.Brand as={Link} to="/">Comprar Pokemon</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="me-auto">
+                        <Nav.Link as={Link} to="/">Inicio</Nav.Link>
+                        <Nav.Link as={Link} to="/cart">Carrito</Nav.Link>
+                    </Nav>
+                    <CartWidget />
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
+    );
+};
 
 export default NavBar;

@@ -1,24 +1,26 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import ItemListContainer from './components/ItemListContainer';
-import MoreInfo from './components/MoreInfo';
+import ItemDetailContainer from './components/ItemDetailContainer';
 import Cart from './components/Cart';
+import { CartProvider } from './contexts/CartContext';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-function App() {
-  return (
-    <Router>
-      <div>
-        <NavBar /> {/* Barra de navegación común a todas las páginas */}
-        <Routes> {/* Contenedor para las rutas */}
-          <Route path="/" element={<ItemListContainer />} index /> {/* Ruta principal, se muestra por defecto */}
-          <Route path="/more-info" element={<MoreInfo />} /> {/* Ruta para la página de más información */}
-          <Route path="/cart" element={<Cart />} /> {/* Ruta para el carrito de compras */}
-        </Routes>
-      </div>
-    </Router>
-  );
-}
+const App = () => {
+    return (
+        <CartProvider>
+            <Router>
+                <NavBar />
+                <Routes>
+                    <Route path="/" element={<ItemListContainer />} />
+                    <Route path="/category/:id" element={<ItemListContainer />} />
+                    <Route path="/item/:id" element={<ItemDetailContainer />} />
+                    <Route path="/cart" element={<Cart />} />
+                </Routes>
+            </Router>
+        </CartProvider>
+    );
+};
 
 export default App;

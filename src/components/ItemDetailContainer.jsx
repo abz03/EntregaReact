@@ -1,26 +1,35 @@
-import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import ItemDetail from './ItemDetail';
 
-// componente que muestra los detalles del pokémon en un modal
-function ItemDetailContainer({ pokemon, show, onHide }) {
-  return (
-    <Modal show={show} onHide={onHide}>
-      <Modal.Header closeButton>
-        <Modal.Title>Detalles de {pokemon.name}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <p><strong>Tipo:</strong> {pokemon.types.join(", ")}</p>
-        <p><strong>Peso:</strong> {pokemon.weight} kg</p>
-        <p><strong>Características:</strong> {pokemon.features.join(", ")}</p>
-        <p><strong>Precio:</strong> $19.99</p>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={onHide}>
-          Cerrar
-        </Button>
-      </Modal.Footer>
-    </Modal>
-  );
-}
+// Simulando datos de productos
+const products = [
+    { id: '1', name: 'Producto 1', description: 'Descripción del Producto 1', price: 100, stock: 10 },
+    { id: '2', name: 'Producto 2', description: 'Descripción del Producto 2', price: 200, stock: 20 },
+    // Agrega más productos según sea necesario
+];
+
+const getItem = (id) => {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(products.find(product => product.id === id));
+        }, 500);
+    });
+};
+
+const ItemDetailContainer = () => {
+    const { id } = useParams();
+    const [item, setItem] = useState(null);
+
+    useEffect(() => {
+        getItem(id).then((data) => setItem(data));
+    }, [id]);
+
+    return (
+        <div className="item-detail-container">
+            {item ? <ItemDetail item={item} /> : <p>Cargando...</p>}
+        </div>
+    );
+};
 
 export default ItemDetailContainer;
