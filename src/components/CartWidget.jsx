@@ -6,6 +6,7 @@ import { Badge } from 'react-bootstrap';
 const CartWidget = () => {
     const { totalItems } = useCart();
 
+    //muestra el total de los items al ir siendo seleccionados, como cada elemento evitado usar CSS, con boostrap react
     return (
         <div className="cart-widget">
             <FaShoppingCart color="white" size="1.5em" />

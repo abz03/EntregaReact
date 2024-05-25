@@ -7,7 +7,7 @@ const NavBar = () => {
     return (
         <Navbar style={{ backgroundColor: 'orange' }} variant="dark" expand="lg">
             <Container>
-                <Navbar.Brand as={Link} to="/">Comprar Pokemon</Navbar.Brand>
+                <Navbar.Brand as={Link} to="/">Comprar tu Pokemon, no los atrapes</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">

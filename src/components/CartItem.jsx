@@ -5,6 +5,8 @@ import { Card, Button } from 'react-bootstrap';
 const CartItem = ({ item }) => {
     const { removeItem } = useCart();
 
+    //se muestra cada "Card" del carrito de compra, su cantidad seleccionada, su precio y da la opcion de eliminarlo
+    // use "number" en firestore para evitar errores por tipo de valor en el precio, no se si daba error si lo dejaba como "string", pero mejor evitar
     return (
         <Card className="mb-3">
             <Card.Body>
@@ -13,8 +15,6 @@ const CartItem = ({ item }) => {
                     Cantidad: {item.quantity}
                     <br />
                     Precio: ${item.price}
-                    <br />
-                    Subtotal: ${(item.price * item.quantity).toFixed(2)}
                 </Card.Text>
                 <Button variant="danger" onClick={() => removeItem(item.id)}>Eliminar</Button>
             </Card.Body>
