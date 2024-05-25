@@ -1,32 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ItemList from './ItemList';
+import { getProducts } from '../firebase/firebase';
 
-// Define el componente ItemListContainer
-function ItemListContainer() {
-  // Crea un estado para almacenar la lista de pokemon
-  const [pokemonList, setPokemonList] = useState([]);
+const ItemListContainer = () => {
+    const [items, setItems] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-  // useEffect se ejecutará cuando el componente se monte
-  useEffect(() => {
-    // Realiza una llamada a la API para obtener una lista de pokemon
-    fetch('https://pokeapi.co/api/v2/pokemon/?limit=6')
-      .then(response => response.json()) // Convierte la respuesta en json
-      .then(data => {
-        setPokemonList(data.results); // Actualiza el estado con los resultados
-      })
-      .catch(() => {
-        alert("no se ha encontrado informacion"); // Muestra un mensaje si hay un error
-      });
-  }, []); // El array vacio asegura que el efecto se ejecute solo una vez
+    //obtiene la data desde la "base de datos", en verdad aqui se despliega cada elemento, deje 6 como limite para evitar agregar tanta cosa a firestore
+    useEffect(() => {
+        getProducts().then((data) => {
+            setItems(data);
+            setLoading(false);
+        }).catch(error => {
+            console.error("Error obteniendo productos: ", error);
+        });
+    }, []);
 
-  // Renderiza el componente
-  return (
-    <div className="container mt-5">
-      <h2>Elije tu pokemon</h2>
-      <ItemList pokemonList={pokemonList} /> {/* Envía la lista de pokemon al componente ItemList.jsx para mostrarla */}
-    </div>
-  );
-}
+    return (
+        <div className="item-list-container">
+            {loading ? <p>Cargando...</p> : <ItemList items={items} />}
+        </div>
+    );
+};
 
-// Exporta el componente para que pueda ser usado en otras partes de la aplicacion
 export default ItemListContainer;
