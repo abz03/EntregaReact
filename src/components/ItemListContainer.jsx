@@ -1,20 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ItemList from './ItemList';
-
-const getProducts = () => {
-    return fetch('https://pokeapi.co/api/v2/pokemon?limit=10')
-        .then(response => response.json())
-        .then(data => {
-            return data.results.map((pokemon, index) => ({
-                id: index.toString(),
-                name: pokemon.name,
-                description: 'Pokemon description',  // Agregar una descripción
-                price: Math.floor(Math.random() * 100) + 1,  // Precio aleatorio
-                stock: 10,  // Stock fijo
-                imageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`  // URL de la imagen
-            }));
-        });
-};
+import { getProducts } from '../firebase/firebase';
 
 const ItemListContainer = () => {
     const [items, setItems] = useState([]);
@@ -24,6 +10,8 @@ const ItemListContainer = () => {
         getProducts().then((data) => {
             setItems(data);
             setLoading(false);
+        }).catch(error => {
+            console.error("Error obteniendo productos: ", error);
         });
     }, []);
 

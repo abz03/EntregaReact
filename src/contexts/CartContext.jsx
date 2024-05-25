@@ -1,16 +1,13 @@
 import React, { createContext, useState, useContext } from 'react';
+import { addOrder } from '../firebase/firebase';
 
-// Crear el contexto del carrito
 const CartContext = createContext();
 
-// Hook personalizado para usar el contexto del carrito
 export const useCart = () => useContext(CartContext);
 
-// Proveedor del contexto del carrito
 export const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([]);
 
-    // Función para agregar un ítem al carrito
     const addItem = (item) => {
         setCart((prevCart) => {
             const itemIndex = prevCart.findIndex(i => i.id === item.id);
@@ -24,19 +21,28 @@ export const CartProvider = ({ children }) => {
         });
     };
 
-    // Función para remover un ítem del carrito
     const removeItem = (itemId) => {
         setCart((prevCart) => prevCart.filter(item => item.id !== itemId));
     };
 
-    // Función para vaciar el carrito
     const clearCart = () => setCart([]);
 
-    // Calcular el total de ítems en el carrito
     const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
+    const createOrder = async (buyerData) => {
+        const order = {
+            buyer: buyerData,
+            items: cart,
+            total: cart.reduce((acc, item) => acc + item.price * item.quantity, 0),
+            date: new Date().toISOString()
+        };
+        const orderId = await addOrder(order);
+        clearCart();
+        return orderId;
+    };
+
     return (
-        <CartContext.Provider value={{ cart, addItem, removeItem, clearCart, totalItems }}>
+        <CartContext.Provider value={{ cart, addItem, removeItem, clearCart, totalItems, createOrder }}>
             {children}
         </CartContext.Provider>
     );

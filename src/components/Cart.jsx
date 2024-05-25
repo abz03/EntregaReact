@@ -4,9 +4,16 @@ import CartItem from './CartItem';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 
 const Cart = () => {
-    const { cart, clearCart } = useCart();
+    const { cart, clearCart, createOrder } = useCart();
+    const [orderId, setOrderId] = useState(null);
 
     const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+
+    const handleCreateOrder = async () => {
+        const buyerData = { name: 'John Doe', email: 'john.doe@example.com', phone: '123456789' };
+        const orderId = await createOrder(buyerData);
+        setOrderId(orderId);
+    };
 
     return (
         <Container>
@@ -21,7 +28,9 @@ const Cart = () => {
             <div className="cart-summary">
                 <h3>Total: ${totalPrice.toFixed(2)}</h3>
                 <Button variant="danger" onClick={clearCart}>Vaciar Carrito</Button>
+                <Button variant="success" onClick={handleCreateOrder}>Crear Orden</Button>
             </div>
+            {orderId && <p>Orden creada con ID: {orderId}</p>}
         </Container>
     );
 };
